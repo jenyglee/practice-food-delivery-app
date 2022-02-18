@@ -1,5 +1,6 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
+  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Platform,
@@ -12,10 +13,12 @@ import {
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import DismissKeyboardView from '../components/DismissKeyboardView';
+import aixos, {AxiosError} from 'axios';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 function SignUp({navigation}: SignUpScreenProps) {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +35,10 @@ function SignUp({navigation}: SignUpScreenProps) {
   const onChangePassword = useCallback(text => {
     setPassword(text.trim());
   }, []);
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
+    if (loading) {
+      return;
+    }
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력해주세요.');
     }
@@ -56,8 +62,21 @@ function SignUp({navigation}: SignUpScreenProps) {
       );
     }
     console.log(email, name, password);
+    try {
+      setLoading(true);
+      const response = await aixos.post('/user', {email, name, password});
+      console.log(response);
+    } catch (error) {
+      const errorResponse = (error as AxiosError).response;
+      if (errorResponse) {
+        Alert.alert('알림', errorResponse.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+
     Alert.alert('알림', '회원가입 되었습니다.');
-  }, [email, name, password]);
+  }, [loading, email, name, password]);
 
   const canGoNext = email && name && password;
   return (
@@ -111,74 +130,6 @@ function SignUp({navigation}: SignUpScreenProps) {
           onSubmitEditing={onSubmit}
         />
       </View>
-      <View style={styles.inputWrapper}>
-        <Text style={styles.label}>비밀번호</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="비밀번호를 입력해주세요(영문,숫자,특수문자)"
-          placeholderTextColor="#666"
-          onChangeText={onChangePassword}
-          value={password}
-          keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'}
-          textContentType="password"
-          secureTextEntry
-          returnKeyType="send"
-          clearButtonMode="while-editing"
-          ref={passwordRef}
-          onSubmitEditing={onSubmit}
-        />
-      </View>
-      <View style={styles.inputWrapper}>
-        <Text style={styles.label}>비밀번호</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="비밀번호를 입력해주세요(영문,숫자,특수문자)"
-          placeholderTextColor="#666"
-          onChangeText={onChangePassword}
-          value={password}
-          keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'}
-          textContentType="password"
-          secureTextEntry
-          returnKeyType="send"
-          clearButtonMode="while-editing"
-          ref={passwordRef}
-          onSubmitEditing={onSubmit}
-        />
-      </View>
-      <View style={styles.inputWrapper}>
-        <Text style={styles.label}>비밀번호</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="비밀번호를 입력해주세요(영문,숫자,특수문자)"
-          placeholderTextColor="#666"
-          onChangeText={onChangePassword}
-          value={password}
-          keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'}
-          textContentType="password"
-          secureTextEntry
-          returnKeyType="send"
-          clearButtonMode="while-editing"
-          ref={passwordRef}
-          onSubmitEditing={onSubmit}
-        />
-      </View>
-      <View style={styles.inputWrapper}>
-        <Text style={styles.label}>비밀번호</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="비밀번호를 입력해주세요(영문,숫자,특수문자)"
-          placeholderTextColor="#666"
-          onChangeText={onChangePassword}
-          value={password}
-          keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'}
-          textContentType="password"
-          secureTextEntry
-          returnKeyType="send"
-          clearButtonMode="while-editing"
-          ref={passwordRef}
-          onSubmitEditing={onSubmit}
-        />
-      </View>
       <View style={styles.buttonZone}>
         <Pressable
           style={
@@ -186,9 +137,13 @@ function SignUp({navigation}: SignUpScreenProps) {
               ? StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
               : styles.loginButton
           }
-          disabled={!canGoNext}
+          disabled={!canGoNext || loading}
           onPress={onSubmit}>
-          <Text style={styles.loginButtonText}>회원가입</Text>
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={styles.loginButtonText}>회원가입</Text>
+          )}
         </Pressable>
       </View>
     </DismissKeyboardView>
