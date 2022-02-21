@@ -280,7 +280,7 @@ PODS:
     - React-Core
   - react-native-flipper (0.131.1):
     - React-Core
-  - react-native-safe-area-context (3.4.0):
+  - react-native-safe-area-context (3.4.1):
     - React-Core
   - React-perflogger (0.67.2)
   - React-RCTActionSheet (0.67.2):
@@ -349,7 +349,7 @@ PODS:
     - React-perflogger (= 0.67.2)
   - RNCAsyncStorage (1.16.1):
     - React-Core
-  - RNScreens (3.11.1):
+  - RNScreens (3.12.0):
     - React-Core
     - React-RCTImage
   - Yoga (1.14.0)
@@ -543,7 +543,7 @@ SPEC CHECKSUMS:
   react-native-config: 6502b1879f97ed5ac570a029961fc35ea606cd14
   react-native-encrypted-storage: e78d848ce0fb663c2ce306e37921d026809322e6
   react-native-flipper: 8d0ada062fbc2c7460cc0d343aded6fc3f9c90dc
-  react-native-safe-area-context: f4f7cc09d81ae2d39dfd13e764d718969af07080
+  react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   React-perflogger: 3c9bb7372493e49036f07a82c44c8cf65cbe88db
   React-RCTActionSheet: 052606483045a408693aa7e864410b4a052f541a
   React-RCTAnimation: 08d4cac13222bb1348c687a0158dfd3b577cdb63
@@ -557,10 +557,10 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 2450b43df7ffe8e805a0b3dcb2abd4282f1f1836
   ReactCommon: d98c6c96b567f9b3a15f9fd4cc302c1eda8e3cf2
   RNCAsyncStorage: b49b4e38a1548d03b74b30e558a1d18465b94be7
-  RNScreens: 4d83613b50b74ed277026375dc0810893b0c347f
+  RNScreens: 2559f98b0835103cbef3b26ba77fa61d4bb37ae7
   Yoga: 9b6696970c3289e8dea34b3eda93f23e61fb8121
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: 9e045cbd1d005e0a379d44bed46a664e2c579428
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.2
