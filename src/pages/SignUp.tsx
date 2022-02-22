@@ -94,6 +94,7 @@ function SignUp({navigation}: SignUpScreenProps) {
           placeholderTextColor="#666"
           textContentType="emailAddress"
           value={email}
+          autoCapitalize="none"
           returnKeyType="next"
           clearButtonMode="while-editing"
           ref={emailRef}
@@ -109,6 +110,7 @@ function SignUp({navigation}: SignUpScreenProps) {
           placeholderTextColor="#666"
           onChangeText={onChangeName}
           value={name}
+          autoCapitalize="none"
           textContentType="name"
           returnKeyType="next"
           clearButtonMode="while-editing"
@@ -126,6 +128,7 @@ function SignUp({navigation}: SignUpScreenProps) {
           onChangeText={onChangePassword}
           value={password}
           keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'}
+          autoCapitalize="none"
           textContentType="password"
           secureTextEntry
           returnKeyType="send"

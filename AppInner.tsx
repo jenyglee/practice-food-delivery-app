@@ -54,7 +54,7 @@ function AppInner() {
         socket.off('order', callback);
       }
     };
-  }, [isLoggedIn, socket]);
+  }, [isLoggedIn, socket, dispatch]);
 
   useEffect(() => {
     if (!isLoggedIn) {

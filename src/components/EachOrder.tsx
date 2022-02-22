@@ -1,28 +1,30 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import axios, {AxiosError} from 'axios';
 import React, {useCallback, useState} from 'react';
 import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 import Config from 'react-native-config';
 import {useDispatch, useSelector} from 'react-redux';
+import {LoggedInParamList} from '../../AppInner';
 import orderSlice, {Order} from '../slices/order';
 import {RootState} from '../store/reducer';
 
 function EachOrder({item}: {item: Order}) {
   const dispatch = useDispatch();
+  const navigation = useNavigation<NavigationProp<LoggedInParamList>>();
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState(false);
 
   const onAccept = useCallback(async () => {
     try {
-      setLoading(false);
+      setLoading(true);
       await axios.post(
         `${Config.API_URL}/accept`,
         {orderId: item.orderId},
-        {
-          headers: {authorization: `Bearer ${accessToken}`},
-        },
+        {headers: {authorization: `Bearer ${accessToken}`}},
       );
+      dispatch(orderSlice.actions.acceptOrder(item.orderId));
+      navigation.navigate('Delivery');
     } catch (error) {
       let errorResponse = (error as AxiosError).response;
       if (errorResponse?.status === 400) {
@@ -31,10 +33,10 @@ function EachOrder({item}: {item: Order}) {
         dispatch(orderSlice.actions.rejectOrder(item.orderId));
       }
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
     dispatch(orderSlice.actions.acceptOrder(item.orderId));
-  }, [dispatch, item.orderId]);
+  }, [dispatch, item.orderId, accessToken, navigation]);
   const onReject = useCallback(() => {
     dispatch(orderSlice.actions.rejectOrder(item.orderId));
   }, [dispatch, item.orderId]);

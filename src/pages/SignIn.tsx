@@ -86,6 +86,7 @@ function SignIn({navigation}: SignInScreenProps) {
           onChangeText={onChangeEmail}
           placeholder="이메일을 입력해주세요"
           placeholderTextColor="#666"
+          autoCapitalize="none"
           importantForAutofill="yes"
           autoComplete="email"
           textContentType="emailAddress"
@@ -103,6 +104,7 @@ function SignIn({navigation}: SignInScreenProps) {
           style={styles.textInput}
           placeholder="비밀번호를 입력해주세요(영문,숫자,특수문자)"
           placeholderTextColor="#666"
+          autoCapitalize="none"
           importantForAutofill="yes"
           onChangeText={onChangePassword}
           value={password}
